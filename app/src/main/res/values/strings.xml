@@ -9,4 +9,5 @@
     <string name="action_settings">Settings</string>
     <string name="escanear_producto">Escanear producto</string>
     <string name="saved_products">Productos guardados</string>
+    <string name="taste">Probar</string>
 </resources>

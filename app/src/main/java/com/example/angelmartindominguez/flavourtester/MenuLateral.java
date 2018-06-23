@@ -1,9 +1,11 @@
 package com.example.angelmartindominguez.flavourtester;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,10 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 public class MenuLateral extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    MenuItem mi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,13 @@ public class MenuLateral extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ActivityCompat.requestPermissions(MenuLateral.this,
+                new String[] {
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                },
+                100);
     }
 
     @Override
@@ -100,11 +109,18 @@ public class MenuLateral extends AppCompatActivity
         return true;
     }
 
-    public void onBackgroundTaskCompleted(Object o){
-
+    public void onBackgroundTaskCompleted(Object[] o){
+        Intent product = new Intent(getApplicationContext(), Product.class);
+        product.putExtra("NAME_OF_PRODUCT",o[0].toString());
+        product.putExtra("IMAGE_OF_PRODUCT",o[1].toString());
+        startActivity(product);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
-
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if(null != scanningResult){
+            String codigo = scanningResult.getContents();
+            new RetrieveProductTask(this).execute(codigo);
+        }
     }
 }
