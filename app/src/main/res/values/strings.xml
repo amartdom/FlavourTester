@@ -10,4 +10,9 @@
     <string name="escanear_producto">Escanear producto</string>
     <string name="saved_products">Productos guardados</string>
     <string name="taste">Probar</string>
+    <string name="testingTitle">PROBANDO</string>
+    <string name="stringCon">Conectando</string>
+    <string name="stringStart">Iniciar prueba</string>
+    <string name="stringTest">Prueba</string>
+    <string name="stringEnd">Finalización</string>
 </resources>
